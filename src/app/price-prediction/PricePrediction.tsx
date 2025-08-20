@@ -18,7 +18,10 @@ interface PredictionData {
   ram_gb?: number;
   processor_type?: string;
   has_accessories: boolean;
-  market_demand: string;
+  body_type: string;
+  recycle_possible: boolean;
+  reuse_possible: boolean;
+  running: boolean;
 }
 
 const PricePrediction: React.FC = () => {
@@ -35,7 +38,10 @@ const PricePrediction: React.FC = () => {
     ram_gb: 0,
     processor_type: "",
     has_accessories: false,
-    market_demand: "",
+    body_type: "",
+    recycle_possible: true,
+    reuse_possible: false,
+    running: true,
   });
 
   const [predictedPrice, setPredictedPrice] = useState<number | null>(null);
@@ -64,13 +70,31 @@ const PricePrediction: React.FC = () => {
     setFormData(prev => ({
       ...prev,
       [name]: type === "checkbox" ? (e.target as HTMLInputElement).checked : 
-               type === "number" ? parseFloat(value) || 0 : value
+               type === "number" ? (value === "" ? null : parseFloat(value) || 0) : value
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.brand || !formData.category || !formData.condition || !formData.original_price || !formData.age_years || !formData.body_type) {
+      toast.error("Please fill out all required fields.");
+      return;
+    }
+
     setLoading(true);
+
+    const apiPayload = {
+      Category: formData.category,
+      Brand: formData.brand,
+      Condition: formData.condition,
+      BodyType: formData.body_type,
+      ActualPrice: formData.original_price,
+      RecyclePossible: formData.recycle_possible,
+      ReusePossible: formData.reuse_possible,
+      YearsUsed: formData.age_years,
+      Running: formData.running,
+    };
 
     try {
       const response = await fetch("https://scraply-price-prediction-model.onrender.com/predict", {
@@ -78,7 +102,7 @@ const PricePrediction: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(apiPayload),
       });
 
       if (response.ok) {
@@ -87,6 +111,7 @@ const PricePrediction: React.FC = () => {
         toast.success("Price prediction successful!");
       } else {
         const errorData = await response.json();
+        console.log("Server error details:", errorData);
         toast.error(`Prediction failed: ${errorData.error || "Unknown error"}`);
       }
     } catch (error) {
@@ -97,10 +122,10 @@ const PricePrediction: React.FC = () => {
     }
   };
 
-  const brands = ["Apple", "Samsung", "Dell", "HP", "Lenovo", "Sony", "LG", "Xiaomi", "OnePlus", "Realme"];
-  const categories = ["Smartphone", "Laptop", "Television", "Refrigerator", "Washing Machine", "Accessories"];
-  const conditions = ["Excellent", "Good", "Fair", "Poor"];
-  const marketDemands = ["High", "Medium", "Low"];
+  const brands = ["Acer", "Anker", "Apple", "Asus", "Bosch", "Dell", "Generic", "Godrej", "HP", "Haier", "Hisense", "JBL", "LG", "Lenovo", "Logitech", "MI", "MSI", "Motorola", "Nokia", "OPPO", "OnePlus", "Panasonic", "Philips", "Realme", "Samsung", "Sharp", "Sony", "TCL", "Toshiba", "Vivo", "Vizio", "Whirlpool", "Xiaomi", "boAt"];
+  const categories = ["Accessories", "Laptop", "Other", "Refrigerator", "Smartphone", "Television"];
+  const conditions = ["Average", "Broken", "Excellent", "Good", "Poor"];
+  const bodyTypes = ["Metal", "Mixed", "Plastic"];
   const processorTypes = ["Intel i3", "Intel i5", "Intel i7", "Intel i9", "AMD Ryzen 3", "AMD Ryzen 5", "AMD Ryzen 7", "ARM", "Snapdragon", "MediaTek"];
 
   return (
@@ -273,18 +298,18 @@ const PricePrediction: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Market Demand *
+                      Body Type *
                     </label>
                     <select
-                      name="market_demand"
-                      value={formData.market_demand}
+                      name="body_type"
+                      value={formData.body_type}
                       onChange={handleInputChange}
                       required
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     >
-                      <option value="">Select Market Demand</option>
-                      {marketDemands.map(demand => (
-                        <option key={demand} value={demand}>{demand}</option>
+                      <option value="">Select Body Type</option>
+                      {bodyTypes.map(type => (
+                        <option key={type} value={type}>{type}</option>
                       ))}
                     </select>
                   </div>
@@ -358,7 +383,7 @@ const PricePrediction: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="mt-6">
+                  <div className="mt-6 space-y-2">
                     <label className="flex items-center">
                       <input
                         type="checkbox"
@@ -369,6 +394,42 @@ const PricePrediction: React.FC = () => {
                       />
                       <span className="ml-2 text-sm text-gray-700">
                         Includes original accessories (charger, box, etc.)
+                      </span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        name="recycle_possible"
+                        checked={formData.recycle_possible}
+                        onChange={handleInputChange}
+                        className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                      />
+                      <span className="ml-2 text-sm text-gray-700">
+                        Recycle Possible
+                      </span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        name="reuse_possible"
+                        checked={formData.reuse_possible}
+                        onChange={handleInputChange}
+                        className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                      />
+                      <span className="ml-2 text-sm text-gray-700">
+                        Reuse Possible
+                      </span>
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        name="running"
+                        checked={formData.running}
+                        onChange={handleInputChange}
+                        className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                      />
+                      <span className="ml-2 text-sm text-gray-700">
+                        Device is Running/Functional
                       </span>
                     </label>
                   </div>
