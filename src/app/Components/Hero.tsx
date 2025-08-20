@@ -147,6 +147,9 @@ const HeroSection: React.FC = () => {
             <Link href="/recycle" className="btn btn-primary mr-4">
               Start Recycling
             </Link>
+            <Link href="/price-prediction" className="btn btn-secondary mr-4">
+              Predict Price
+            </Link>
             <Link href="/e-facilities" className="btn btn-primary mr-4">
               Locate Facility
             </Link>

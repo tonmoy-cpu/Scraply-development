@@ -120,9 +120,12 @@ const user = getUser();
             <NavItem label="About" />
             <NavItem label="E-Facilities" />
             <NavItem label="Recycle" />
+            <NavItem label="Price Prediction" />
+            <NavItem label="Tracking" />
             <NavItem label="Blog" />
             <NavItem label="Contact Us" />
             <NavItem label="Rules" />
+            {user?.role === "admin" && <NavItem label="Admin" />}
           </ul>
         </nav>
 
@@ -144,6 +147,14 @@ const user = getUser();
                 <Link href="/profile" className="hover:text-sky-500">
                   Profile
                 </Link>
+                <Link href="/tracking" className="hover:text-sky-500">
+                  Track Pickups
+                </Link>
+                {user?.role === "admin" && (
+                  <Link href="/admin" className="hover:text-sky-500">
+                    Admin Panel
+                  </Link>
+                )}
                 <button
                   className="hover:text-sky-500"
                   onClick={handleLogout}
@@ -181,7 +192,7 @@ const user = getUser();
 const NavItem = ({ label }: NavItemProps) => {
   return (
     <li className="navbar-link">
-      <Link href={label === "Home" ? "/" : `/${label.toLowerCase()}`}>
+      <Link href={label === "Home" ? "/" : `/${label.toLowerCase().replace(" ", "-")}`}>
         {label}
       </Link>
     </li>

@@ -8,6 +8,7 @@ interface User {
   phoneNumber: string;
   fullname: string;
   username?: string;
+  role?: string;
 }
 
 // Store token in localStorage

@@ -88,11 +88,39 @@ export const getBookingsByFacility = async (req, res) => {
   }
 };
 
+export const updateBooking = async (req, res) => {
+  const bookingId = req.params.id;
+
+  try {
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      bookingId,
+      { $set: req.body },
+      { new: true }
+    );
+    
+    if (!updatedBooking) {
+      return res.status(404).json({
+        success: false,
+        message: "Booking not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Booking updated successfully",
+      data: updatedBooking,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Failed to update booking" });
+  }
+};
 
 export default {
   createBooking,
   getBooking,
   getAllBookings,
   getBookingByUser,
-  getBookingsByFacility
+  getBookingsByFacility,
+  updateBooking
 };
