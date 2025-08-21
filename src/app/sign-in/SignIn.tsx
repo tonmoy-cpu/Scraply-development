@@ -1,8 +1,16 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { setEmail, setPhoneNumber, setToken, setUser, setUserID, setUserName, setfullname } from "./auth";
+import {
+  setEmail,
+  setPhoneNumber,
+  setToken,
+  setUser,
+  setUserID,
+  setUserName,
+  setfullname,
+} from "./auth";
 
 const Signin: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -27,43 +35,44 @@ const Signin: React.FC = () => {
   };
 
   const login = async () => {
-    toast.loading("Loading..")
+    toast.loading("Loading..");
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/auth/login",
         formData
       );
-      
+
       if (!response || !response.data) {
         throw new Error("Invalid response from server");
       }
-      
+
       const user = response.data;
-      console.log(user);
-  
+      console.log("Login response user:", user);
+
       if (!user) {
         throw new Error("No user data received");
       }
-      
+
       localStorage.setItem("user", JSON.stringify(user));
-  
+
       toast.dismiss();
       toast.success("Login Successful!");
-  
+
       if (user) {
         setUser(user);
         setEmail(user.email);
-        setToken(user.token)
+        setToken(user.token);
         setPhoneNumber(user.phoneNumber);
-        setfullname(user.fullname);
+        // ✅ fallback if backend sends "name" instead of "fullname"
+        setfullname(user.fullname || user.name || "");
         setUserID(user.id);
         if (user.username) {
           setUserName(user.username);
         }
       }
-  
+
       window.location.href = "/";
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login failed:", error);
       toast.dismiss();
       if (error.response?.status === 401) {
@@ -75,9 +84,6 @@ const Signin: React.FC = () => {
       }
     }
   };
-
-
-
 
   return (
     <div className="flex items-center justify-center md:h-screen h-[70vh]">

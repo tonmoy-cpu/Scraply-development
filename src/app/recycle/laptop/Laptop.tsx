@@ -391,27 +391,28 @@ if (isLoading) {
           />
         </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="facility"
-            className="block text-2xl font-medium text-gray-600"
-          >
-            Select Facility:
-          </label>
-          <select
-            id="facility"
-            value={selectedFacility}
-            onChange={(e) => setSelectedFacility(e.target.value)}
-            className="w-full p-2 sign-field rounded-md placeholder:font-light placeholder:text-gray-500"
-          >
-            <option value="">Select Facility</option>
-            {facility.map((facility) => (
-              <option key={facility.name} value={facility.name}>
-                {facility.name}
-              </option>
-            ))}
-          </select>
-        </div>
+       <div className="mb-4">
+  <label
+    htmlFor="facility"
+    className="block text-2xl font-medium text-gray-600"
+  >
+    Select Facility:
+  </label>
+  <select
+    id="facility"
+    value={selectedFacility}
+    onChange={(e) => setSelectedFacility(e.target.value)}
+    className="w-full p-2 sign-field rounded-md placeholder:font-light placeholder:text-gray-500"
+  >
+    <option value="">Select Facility</option>
+    {facility.map((facility, index) => (
+      <option key={`${facility.name}-${index}`} value={facility.name}>
+        {facility.name}
+      </option>
+    ))}
+  </select>
+</div>
+
         <div className="mb-4 md:col-span-2">
           <button
             type="submit"

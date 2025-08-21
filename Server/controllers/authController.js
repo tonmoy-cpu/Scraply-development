@@ -29,7 +29,7 @@ export const registerUser = async (req, res) => {
     // Create a new user
     const newUser = new User({
       username,
-      fullName,
+      fullName, // still store with capital N in DB
       phoneNumber,
       email,
       password: hashedPassword,
@@ -78,7 +78,7 @@ export const loginUser = async (req, res) => {
       id: user._id,
       username: user.username,
       email: user.email,
-      fullName: user.fullName,
+      fullname: user.fullName || "", // 👈 unified here
       phoneNumber: user.phoneNumber,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
