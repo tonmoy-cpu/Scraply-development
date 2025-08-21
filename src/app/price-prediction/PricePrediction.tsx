@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FiDollarSign, FiTrendingUp, FiZap } from "react-icons/fi";
+import { FiTrendingUp, FiZap } from "react-icons/fi";
+import { FaRupeeSign } from 'react-icons/fa';
+
+<FaRupeeSign />
+
 
 interface PredictionData {
   brand: string;
@@ -139,7 +143,7 @@ const PricePrediction: React.FC = () => {
           className="text-center mb-12"
         >
           <div className="flex justify-center items-center mb-4">
-            <FiDollarSign className="text-5xl text-indigo-600 mr-3" />
+            <FaRupeeSign className="text-5xl text-indigo-600 mr-3" />
             <h1 className="text-5xl font-bold text-gray-900">E-Waste Price Predictor</h1>
           </div>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -464,7 +468,7 @@ const PricePrediction: React.FC = () => {
           >
             <div className="bg-white rounded-2xl shadow-xl p-8 sticky top-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                <FiDollarSign className="mr-3 text-green-600" />
+                <FaRupeeSign className="mr-3 text-green-600" />
                 Price Prediction
               </h2>
 
@@ -507,7 +511,7 @@ const PricePrediction: React.FC = () => {
                 </motion.div>
               ) : (
                 <div className="text-center text-gray-500">
-                  <FiDollarSign className="text-6xl mx-auto mb-4 opacity-30" />
+                  <FaRupeeSign className="text-6xl mx-auto mb-4 opacity-30" />
                   <p>Fill out the form to get your price prediction</p>
                 </div>
               )}
