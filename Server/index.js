@@ -14,17 +14,30 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Middleware
+// ------------------- Middleware -------------------
 app.use(express.json());
+app.use(cookieParser());
+
+// ✅ Allow CORS for localhost + Codespaces frontend
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://turbo-space-giggle-wxw795jxxxg25xwp-3000.app.github.dev"
+];
+
 app.use(
   cors({
-    origin: true,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
-app.use(cookieParser());
 
-// Initialize Gemini API client
+// ------------------- Gemini AI -------------------
 if (!process.env.GEMINI_API_KEY) {
   console.error("Error: GEMINI_API_KEY is not set in .env");
   process.exit(1);
@@ -45,9 +58,8 @@ const model = genAI.getGenerativeModel({
   ],
 });
 
-// Generate AI response using Gemini API
 const getAIResponse = async (message) => {
-  console.log("give me in 10 words about : ", message);
+  console.log("Gemini request:", message);
   try {
     const result = await model.generateContent(message);
     const responseText = result.response.text();
@@ -55,7 +67,7 @@ const getAIResponse = async (message) => {
     return responseText;
   } catch (error) {
     console.error("Gemini API error:", error);
-    if (error.message.includes("API key")) {
+    if (error.message?.includes("API key")) {
       return "Invalid or missing API key. Please contact support.";
     }
     if (error.name === "ResponseStoppedException") {
@@ -70,7 +82,7 @@ const getAIResponse = async (message) => {
   }
 };
 
-// Routes
+// ------------------- Routes -------------------
 app.get("/", (req, res) => {
   console.log("GET / called");
   res.send("Hello, world!");
@@ -95,19 +107,20 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
-// Health check endpoint
+// Health check
 app.get("/api/health", (req, res) => {
   console.log("GET /api/health called");
-  res.json({ status: "Server is running" });
+  res.json({ status: "Server is running 🚀" });
 });
 
+// API routes
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/booking", bookingRoute);
 app.use("/api/v1/blogs", blogRoute);
 app.use("/api/v1/facility", facilityRoute);
 
-// MongoDB Connection
+// ------------------- MongoDB -------------------
 mongoose.set("strictQuery", false);
 
 async function connect() {
@@ -116,16 +129,16 @@ async function connect() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("MongoDB Database Connected");
+    console.log("✅ MongoDB Database Connected");
   } catch (err) {
-    console.error("MongoDB Database Connection Failed:", err);
+    console.error("❌ MongoDB Database Connection Failed:", err);
   }
 }
 
-// Start server
-app.listen(port, () => {
+// ------------------- Start Server -------------------
+app.listen(port, "0.0.0.0", () => {
   connect();
-  console.log("Server is listening on port", port);
+  console.log(`🚀 Server is listening on port ${port}`);
   console.log("Registered endpoints:");
   console.log("- GET /");
   console.log("- GET /api/health");

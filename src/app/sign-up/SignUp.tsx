@@ -1,9 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import axios from "axios";
-
 
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -39,17 +38,22 @@ const SignUp: React.FC = () => {
     }
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5000/api/v1/auth/register",
         formData
       );
 
       toast.success("Registration Successful!");
-
       window.location.href = "/sign-in";
-    } catch (error:any) {
+    } catch (error: any) {
       console.error("Register failed:", error);
-      toast.error(`Registration Failed. ${error.response.data.message}`);
+
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Something went wrong. Please try again.";
+
+      toast.error(`Registration Failed. ${errorMessage}`);
     }
   };
 
@@ -103,7 +107,6 @@ const SignUp: React.FC = () => {
                 onChange={handleInputChange}
                 value={formData.password}
                 required
-
               />
             </div>
           </div>
@@ -121,7 +124,6 @@ const SignUp: React.FC = () => {
                 onChange={handleInputChange}
                 value={formData.phoneNumber}
                 required
-
               />
             </div>
             <div className="py-4">
@@ -135,7 +137,6 @@ const SignUp: React.FC = () => {
                 onChange={handleInputChange}
                 value={formData.fullName}
                 required
-
               />
             </div>
             <div className="py-4">
@@ -151,17 +152,15 @@ const SignUp: React.FC = () => {
                 required
               />
             </div>
-         
           </div>
         </div>
+
         <div className="flex justify-between py-4">
-      
           <label className="flex text-xl">
             <input
               type="checkbox"
               name="ch"
               id="ch"
-              placeholder="checkbox"
               className="ml-8 p-1"
               onClick={togglePasswordVisibility}
             />
@@ -171,11 +170,13 @@ const SignUp: React.FC = () => {
             Forgot Password?
           </Link>
         </div>
+
         {!passwordMatch && (
-              <div className="text-red-600 text-sm">
-                Password and Confirm Password do not match.
-              </div>
-            )}
+          <div className="text-red-600 text-sm">
+            Password and Confirm Password do not match.
+          </div>
+        )}
+
         <button
           className="w-full bg-black mt-4 text-white p-2 rounded-lg mb-6 hover:bg-emerald-400 hover:text-black hover:border hover:border-gray-300"
           onClick={register}
@@ -184,7 +185,7 @@ const SignUp: React.FC = () => {
         </button>
 
         <div className="text-center text-gray-400">
-          Already have an account?
+          Already have an account?{" "}
           <Link
             href="/sign-in"
             className="font-bold text-black hover:text-emerald-300"
