@@ -6,9 +6,45 @@ import feature from "../../assets/features/banner.svg";
 import animationData from "../../assets/animation-1.json";
 import Lottie from "lottie-react";
 
+const teamMembers = [
+  {
+    name: "Arjun Sharma",
+    branch: "Computer Science Engineering",
+    age: 22,
+    year: "4th Year",
+    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    role: "Full Stack Developer"
+  },
+  {
+    name: "Priya Patel",
+    branch: "Electronics & Communication Engineering", 
+    age: 22,
+    year: "4th Year",
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    role: "UI/UX Designer"
+  },
+  {
+    name: "Rohit Kumar",
+    branch: "Computer Science Engineering",
+    age: 22,
+    year: "4th Year", 
+    image: "https://randomuser.me/api/portraits/men/46.jpg",
+    role: "Backend Developer"
+  },
+  {
+    name: "Sneha Gupta",
+    branch: "Information Technology",
+    age: 22,
+    year: "4th Year",
+    image: "https://randomuser.me/api/portraits/women/68.jpg",
+    role: "Data Analyst"
+  }
+];
+
 const About = () => {
   return (
-    <section className="section features" id="features" aria-label="features">
+    <>
+      <section className="section features" id="features" aria-label="features">
       <div className="container mx-auto px-4 text-center">
         <p className="section-subtitle font-bold text-gray-700 mb-2">
         -About Scraply-
@@ -54,6 +90,43 @@ const About = () => {
         </div>
       </div>
     </section>
+    
+    {/* Team Section */}
+    <section className="section bg-gray-50" id="team" aria-label="team">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <p className="section-subtitle font-bold text-gray-700 mb-2">
+            -Meet Our Team-
+          </p>
+          <h2 className="text-4xl section-title font-bold text-black mb-4">
+            The Minds Behind Scraply
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            A passionate team of engineering students dedicated to solving e-waste challenges through innovative technology solutions.
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {teamMembers.map((member, index) => (
+            <div key={index} className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
+              <div className="relative mb-4">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-go-green"
+                  style={{ height: 'auto' }}
+                />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>
+              <p className="text-go-green font-semibold mb-2">{member.role}</p>
+              <p className="text-gray-600 text-sm mb-1">{member.branch}</p>
+              <p className="text-gray-500 text-sm">{member.year} • Age {member.age}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+    </>
   );
 };
 
