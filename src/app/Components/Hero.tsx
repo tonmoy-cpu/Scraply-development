@@ -90,18 +90,27 @@ const HeroSection: React.FC = () => {
       const response = await axios.post("http://localhost:5000/api/chat", {
         message: userInput,
       });
+      
+      if (!response || !response.data) {
+        throw new Error("Invalid response from server");
+      }
+      
       console.log("API response:", response.data);
       const assistantMessage: ChatMessage = {
         role: "assistant",
-        content: response.data.reply,
+        content: response.data.reply || "Sorry, I couldn't generate a response.",
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("Error sending message:", error);
-      const errorMessage =
-        error.response?.status === 404
-          ? "Chat service unavailable. Please check if the backend server is running."
-          : "Sorry, something went wrong. Try again later.";
+      let errorMessage = "Sorry, something went wrong. Try again later.";
+      
+      if (error.response?.status === 404) {
+        errorMessage = "Chat service unavailable. Please check if the backend server is running.";
+      } else if (error.code === 'NETWORK_ERROR') {
+        errorMessage = "Network error. Please check your connection.";
+      }
+      
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: errorMessage },

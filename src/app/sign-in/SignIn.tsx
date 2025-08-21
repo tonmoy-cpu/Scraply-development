@@ -33,11 +33,21 @@ const Signin: React.FC = () => {
         "http://localhost:5000/api/v1/auth/login",
         formData
       );
-      const  user  = response.data;
+      
+      if (!response || !response.data) {
+        throw new Error("Invalid response from server");
+      }
+      
+      const user = response.data;
       console.log(user);
   
+      if (!user) {
+        throw new Error("No user data received");
+      }
+      
       localStorage.setItem("user", JSON.stringify(user));
   
+      toast.dismiss();
       toast.success("Login Successful!");
   
       if (user) {
@@ -55,7 +65,14 @@ const Signin: React.FC = () => {
       window.location.href = "/";
     } catch (error) {
       console.error("Login failed:", error);
-      toast.error("Login Failed. Please check your credentials.");
+      toast.dismiss();
+      if (error.response?.status === 401) {
+        toast.error("Invalid credentials. Please check your email and password.");
+      } else if (error.response?.status === 404) {
+        toast.error("User not found. Please check your email or sign up.");
+      } else {
+        toast.error("Login failed. Please try again later.");
+      }
     }
   };
 

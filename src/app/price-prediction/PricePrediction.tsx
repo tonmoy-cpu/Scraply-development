@@ -77,8 +77,27 @@ const PricePrediction: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.brand || !formData.category || !formData.condition || !formData.original_price || !formData.age_years || !formData.body_type) {
+    // Validate required fields
+    const requiredFields = {
+      brand: formData.brand,
+      category: formData.category,
+      condition: formData.condition,
+      original_price: formData.original_price,
+      age_years: formData.age_years,
+      body_type: formData.body_type
+    };
+
+    const missingFields = Object.entries(requiredFields)
+      .filter(([key, value]) => !value || (typeof value === 'number' && value <= 0))
+      .map(([key]) => key.replace('_', ' '));
+
+    if (missingFields.length > 0) {
       toast.error("Please fill out all required fields.");
+      return;
+    }
+
+    if (apiStatus === "offline") {
+      toast.error("Prediction service is currently offline. Please try again later.");
       return;
     }
 
@@ -103,11 +122,16 @@ const PricePrediction: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(apiPayload),
+        signal: AbortSignal.timeout(30000), // 30 second timeout
       });
 
       if (response.ok) {
         const data = await response.json();
-        setPredictedPrice(data.predicted_price);
+        if (data && typeof data.predicted_price === 'number') {
+          setPredictedPrice(Math.round(data.predicted_price));
+        } else {
+          throw new Error("Invalid prediction response");
+        }
         toast.success("Price prediction successful!");
       } else {
         const errorData = await response.json();
@@ -116,7 +140,13 @@ const PricePrediction: React.FC = () => {
       }
     } catch (error) {
       console.error("Error predicting price:", error);
-      toast.error("Failed to connect to prediction service. Please try again later.");
+      if (error.name === 'AbortError') {
+        toast.error("Request timed out. Please try again.");
+      } else if (error.message.includes('fetch')) {
+        toast.error("Network error. Please check your connection and try again.");
+      } else {
+        toast.error("Failed to connect to prediction service. Please try again later.");
+      }
     } finally {
       setLoading(false);
     }
