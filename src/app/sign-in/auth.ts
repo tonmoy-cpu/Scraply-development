@@ -8,6 +8,7 @@ interface User {
   phoneNumber: string;
   fullname?: string;
   name?: string;   // some backends return "name" instead of "fullname"
+  fullName?: string; // Add fullName property
   username?: string;
   role?: string;
 }
@@ -16,7 +17,6 @@ interface User {
 export const setToken = (token: string): void => {
   if (isLocalStorageAvailable) {
     localStorage.setItem("token", token);
-    console.log("Token set:", token);
   }
 };
 
@@ -24,7 +24,6 @@ export const setToken = (token: string): void => {
 export const getToken = (): string | null => {
   if (isLocalStorageAvailable) {
     const token = localStorage.getItem("token");
-    console.log("Token retrieved:", token);
     return token;
   }
   return null;
@@ -34,7 +33,6 @@ export const getToken = (): string | null => {
 export const isAuthenticated = (): boolean => {
   const token = getToken();
   const isAuth = !!token;
-  console.log("isAuthenticated:", isAuth);
   return isAuth;
 };
 
@@ -42,7 +40,6 @@ export const isAuthenticated = (): boolean => {
 export const setUser = (user: User): void => {
   if (isLocalStorageAvailable) {
     localStorage.setItem("user", JSON.stringify(user));
-    console.log("User set:", user);
   }
 };
 
@@ -51,7 +48,6 @@ export const getUser = (): User | null => {
   if (isLocalStorageAvailable) {
     const user = localStorage.getItem("user");
     const parsedUser = user ? JSON.parse(user) : null;
-    console.log("User retrieved:", parsedUser);
     return parsedUser;
   }
   return null;
@@ -61,7 +57,6 @@ export const getUser = (): User | null => {
 export const setUserID = (id: string): void => {
   if (isLocalStorageAvailable) {
     localStorage.setItem("id", id);
-    console.log("User ID set:", id);
   }
 };
 
@@ -69,7 +64,6 @@ export const setUserID = (id: string): void => {
 export const getUserID = (): string | null => {
   if (isLocalStorageAvailable) {
     const userId = localStorage.getItem("id");
-    console.log("User ID retrieved:", userId);
     return userId;
   }
   return null;
@@ -79,7 +73,6 @@ export const getUserID = (): string | null => {
 export const setUserName = (username: string): void => {
   if (isLocalStorageAvailable) {
     localStorage.setItem("username", username);
-    console.log("Username set:", username);
   }
 };
 
@@ -87,7 +80,6 @@ export const setUserName = (username: string): void => {
 export const getUserName = (): string | null => {
   if (isLocalStorageAvailable) {
     const username = localStorage.getItem("username");
-    console.log("Username retrieved:", username);
     return username;
   }
   return null;
@@ -97,7 +89,6 @@ export const getUserName = (): string | null => {
 export const setfullname = (fullname: string): void => {
   if (isLocalStorageAvailable) {
     localStorage.setItem("fullname", fullname);
-    console.log("Fullname set:", fullname);
   }
 };
 
@@ -105,7 +96,6 @@ export const setfullname = (fullname: string): void => {
 export const getfullname = (): string | null => {
   if (isLocalStorageAvailable) {
     const fullname = localStorage.getItem("fullname");
-    console.log("Fullname retrieved:", fullname);
     return fullname;
   }
   return null;
@@ -115,7 +105,6 @@ export const getfullname = (): string | null => {
 export const setEmail = (email: string): void => {
   if (isLocalStorageAvailable) {
     localStorage.setItem("email", email);
-    console.log("Email set:", email);
   }
 };
 
@@ -123,7 +112,6 @@ export const setEmail = (email: string): void => {
 export const getEmail = (): string | null => {
   if (isLocalStorageAvailable) {
     const email = localStorage.getItem("email");
-    console.log("Email retrieved:", email);
     return email;
   }
   return null;
@@ -133,7 +121,6 @@ export const getEmail = (): string | null => {
 export const setPhoneNumber = (phoneNumber: string): void => {
   if (isLocalStorageAvailable) {
     localStorage.setItem("phoneNumber", phoneNumber);
-    console.log("Phone number set:", phoneNumber);
   }
 };
 
@@ -141,8 +128,22 @@ export const setPhoneNumber = (phoneNumber: string): void => {
 export const getPhoneNumber = (): string | null => {
   if (isLocalStorageAvailable) {
     const phoneNumber = localStorage.getItem("phoneNumber");
-    console.log("Phone number retrieved:", phoneNumber);
     return phoneNumber;
+  }
+  return null;
+};
+
+// Store user role
+export const setUserRole = (role: string): void => {
+  if (isLocalStorageAvailable) {
+    localStorage.setItem("userRole", role);
+  }
+};
+
+// Retrieve user role
+export const getUserRole = (): string | null => {
+  if (isLocalStorageAvailable) {
+    return localStorage.getItem("userRole");
   }
   return null;
 };
@@ -155,19 +156,12 @@ export const isUserDataComplete = (): boolean => {
   const fullname = getfullname();
 
   const isComplete = !!email && !!userId && !!phoneNumber; 
-  console.log("User data complete:", isComplete, {
-    email,
-    userId,
-    phoneNumber,
-    fullname,
-  });
   return isComplete;
 };
 
 // Clear localStorage and redirect to sign-in
 export const handleLogout = (): void => {
   if (isLocalStorageAvailable) {
-    console.log("Logging out: Clearing localStorage");
     localStorage.clear();
     window.location.href = "/sign-in";
   }

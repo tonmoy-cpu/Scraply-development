@@ -37,16 +37,21 @@ const SignUp: React.FC = () => {
       return;
     }
 
+    setPasswordMatch(true);
+    toast.loading("Creating account...");
+
     try {
       await axios.post(
         "http://localhost:5000/api/v1/auth/register",
         formData
       );
 
+      toast.dismiss();
       toast.success("Registration Successful!");
       window.location.href = "/sign-in";
     } catch (error: any) {
       console.error("Register failed:", error);
+      toast.dismiss();
 
       const errorMessage =
         error.response?.data?.message ||

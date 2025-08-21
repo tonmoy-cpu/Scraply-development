@@ -42,7 +42,7 @@ const Laptop: React.FC = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedFacility, setSelectedFacility] = useState("");
-  const [recycleItemPrice, setRecycleItemPrice] = useState<number>();
+  const [recycleItemPrice, setRecycleItemPrice] = useState<number>(0);
   const [pickupDate, setPickupDate] = useState<string>("");
   const [pickupTime, setPickupTime] = useState<string>("");
   const [brands, setBrands] = useState<Brand[]>([]);

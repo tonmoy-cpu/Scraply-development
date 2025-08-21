@@ -10,6 +10,7 @@ import {
   setUserID,
   setUserName,
   setfullname,
+  setUserRole,
 } from "./auth";
 
 const Signin: React.FC = () => {
@@ -47,7 +48,6 @@ const Signin: React.FC = () => {
       }
 
       const user = response.data;
-      console.log("Login response user:", user);
 
       if (!user) {
         throw new Error("No user data received");
@@ -63,9 +63,10 @@ const Signin: React.FC = () => {
         setEmail(user.email);
         setToken(user.token);
         setPhoneNumber(user.phoneNumber);
-        // ✅ fallback if backend sends "name" instead of "fullname"
-        setfullname(user.fullname || user.name || "");
+        // Handle both fullname and fullName properties
+        setfullname(user.fullname || user.fullName || user.name || "");
         setUserID(user.id);
+        setUserRole(user.role || 'user');
         if (user.username) {
           setUserName(user.username);
         }

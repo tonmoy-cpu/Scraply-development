@@ -75,9 +75,7 @@ const HeroSection: React.FC = () => {
 
   // Handle sending a message
   const handleSendMessage = async () => {
-    console.log("handleSendMessage called with input:", userInput);
     if (!userInput.trim()) {
-      console.log("Empty input, returning");
       return;
     }
 
@@ -95,7 +93,6 @@ const HeroSection: React.FC = () => {
         throw new Error("Invalid response from server");
       }
       
-      console.log("API response:", response.data);
       const assistantMessage: ChatMessage = {
         role: "assistant",
         content: response.data.reply || "Sorry, I couldn't generate a response.",
@@ -123,7 +120,6 @@ const HeroSection: React.FC = () => {
   // Handle Enter key press
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !isLoading) {
-      console.log("Enter key pressed, calling handleSendMessage");
       handleSendMessage();
     }
   };

@@ -65,7 +65,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={poppins.className} suppressHydrationWarning={true}>
+      <body className={poppins.className}>
         <NextTopLoader color="#28af60" showSpinner={false}/>
         <Navbar/>
           {children}

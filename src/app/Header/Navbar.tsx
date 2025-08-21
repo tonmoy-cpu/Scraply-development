@@ -10,6 +10,7 @@ import logo from "../../assets/logo-1.png"
 import { getEmail, getUser, getUserName, handleLogout, isAuthenticated } from "../sign-in/auth";
 import { FiUser } from 'react-icons/fi';
 import getLocation from "../utils/getLocation";
+import { useState as useReactState, useEffect as useReactEffect } from "react";
 
 
 interface NavItemProps {
@@ -21,6 +22,16 @@ const Header = () => {
   const [isHeaderActive, setIsHeaderActive] = useState(false);
   const [locations, setLocation] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [user, setUser] = useReactState(null);
+  const [mounted, setMounted] = useReactState(false);
+
+  // Handle client-side mounting to prevent hydration issues
+  useReactEffect(() => {
+    setMounted(true);
+    if (isAuthenticated()) {
+      setUser(getUser());
+    }
+  }, []);
 
   const handleToggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -78,11 +89,76 @@ const Header = () => {
     };
   }, []);
 
-const user = getUser();
-
   const toggleNavbar = () => {
     setIsNavbarActive(!isNavbarActive);
   };
+
+  // Don't render user-specific content until mounted
+  if (!mounted) {
+    return (
+      <header className={`header ${isHeaderActive ? "active" : ""}`} data-header>
+        <div className="container shadow-md">
+          <Link href="/">
+            <Image
+              src={logo}
+              alt="Scraply"
+              width={90}
+              height={40}
+              className="logo ml-4 logo md:ml-16 relative top-2"
+            />
+          </Link>
+          <nav className={`navbar ${isNavbarActive ? "active" : ""}`} data-navbar>
+            <div className="wrapper">
+              <Link href="/" className="logo">
+                Scraply
+              </Link>
+              <button
+                className="nav-close-btn"
+                aria-label="close menu"
+                data-nav-toggler
+                onClick={toggleNavbar}
+              >
+                <IonIcon
+                  icon={closeOutline}
+                  className={`close-icon ${isNavbarActive ? "" : "hidden"}`}
+                ></IonIcon>
+              </button>
+            </div>
+            <ul className="navbar-list">
+              <NavItem label="Home" />
+              <NavItem label="About" />
+              <NavItem label="E-Facilities" />
+              <NavItem label="Recycle" />
+              <NavItem label="Price Prediction" />
+              <NavItem label="Tracking" />
+              <NavItem label="Blog" />
+              <NavItem label="Contact Us" />
+              <NavItem label="Rules" />
+            </ul>
+          </nav>
+          <h1 className='font-montserrat font-bold text-xl ml-12 md:ml-4 md:text-2xl text-sky-600 flex items-center gap-[1vh]'>
+            <IonIcon icon={location} aria-hidden="true"></IonIcon>
+            Loading...
+            <IonIcon icon={location} aria-hidden="true"></IonIcon>
+          <Link href="/sign-in" className="btn-md btn-outline md:mr-4">Sign In</Link>
+          <button
+            className="nav-open-btn"
+            aria-label="open menu"
+            data-nav-toggler
+            onClick={toggleNavbar}
+          >
+            <IonIcon icon={menuOutline} aria-hidden="true"></IonIcon>
+          </button>
+          <div
+            className={`overlay ${isNavbarActive ? "active" : ""}`}
+            data-nav-toggler
+            data-overlay
+            onClick={toggleNavbar}
+          ></div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className={`header ${isHeaderActive ? "active" : ""}`} data-header>
