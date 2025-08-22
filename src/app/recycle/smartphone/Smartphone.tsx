@@ -193,7 +193,11 @@ const Smartphone: React.FC = () => {
   const phone = getPhoneNumber();
   const fullname = getfullname();
 
-  const effectiveFacilities = facilityData.length > 0 ? facilityData : facility;
+  // Filter out duplicate facilities by name
+  const effectiveFacilitiesRaw = facilityData.length > 0 ? facilityData : facility;
+  const effectiveFacilities = effectiveFacilitiesRaw.filter(
+    (fac, idx, arr) => arr.findIndex(f => f.name === fac.name) === idx
+  );
 
   const handleSubmit = async () => {
     console.log("isAuthenticated:", isAuthenticated());
@@ -480,8 +484,8 @@ const Smartphone: React.FC = () => {
             className="w-full p-2 sign-field rounded-md placeholder:font-light placeholder:text-gray-500"
           >
             <option value="">Select Facility</option>
-            {effectiveFacilities.map((fac) => (
-              <option key={fac.name} value={fac.name}>
+            {effectiveFacilities.map((fac, idx) => (
+              <option key={`${fac.name}-${idx}`} value={fac.name}>
                 {fac.name}
               </option>
             ))}

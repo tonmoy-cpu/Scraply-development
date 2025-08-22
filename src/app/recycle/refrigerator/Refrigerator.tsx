@@ -51,6 +51,11 @@ const Refrigerator: React.FC = () => {
   const [bookingData, setBookingData] = useState<BookingData[]>([]);
   const [facilityData, setFacilityData] = useState<Facility[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  // Filter out duplicate facilities by name
+  const effectiveFacilitiesRaw = facilityData.length > 0 ? facilityData : facility;
+  const effectiveFacilities = effectiveFacilitiesRaw.filter(
+    (fac, idx, arr) => arr.findIndex(f => f.name === fac.name) === idx
+  );
 
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/facility")
@@ -127,82 +132,86 @@ const Refrigerator: React.FC = () => {
   const fullname = getfullname();
 
  const handleSubmit = async () => {
-  const recycleItem = selectedBrand + selectedModel;
+  const recycleItem = selectedBrand + " " + selectedModel;
 
-  if (isAuthenticated() && facilityData.length > 0) {
-    if (
-      recycleItem &&
-      selectedFacility &&
-      recycleItemPrice &&
-      pickupDate &&
-      pickupTime &&
-      fullname &&
-      phone &&
-      address &&
-      fullname &&
-      email &&
-      userId
-    ) {
+  if (!isAuthenticated()) {
+    toast.error("Please login to book a facility.", {
+      autoClose: 3000,
+    });
+    return;
+  }
 
-      const newBooking: BookingData = {
-        userId: userId,
-        userEmail: email,
-        recycleItem,
-        recycleItemPrice,
-        pickupDate,
-        pickupTime,
-        facility: selectedFacility,
-        fullName: fullname,
-        address: address,
-        phone: phone as unknown as number,
-      };
+  if (effectiveFacilities.length === 0) {
+    toast.error("No facilities available. Please try again later.", {
+      autoClose: 3000,
+    });
+    return;
+  }
 
-      setBookingData([...bookingData, newBooking]);
-      setIsLoading(true)
+  if (
+    recycleItem.trim() &&
+    selectedFacility &&
+    recycleItemPrice &&
+    pickupDate &&
+    pickupTime &&
+    fullname &&
+    phone &&
+    address &&
+    email &&
+    userId
+  ) {
+    const newBooking: BookingData = {
+      userId: userId,
+      userEmail: email,
+      recycleItem,
+      recycleItemPrice,
+      pickupDate,
+      pickupTime,
+      facility: selectedFacility,
+      fullName: fullname,
+      address: address,
+      phone: phone as unknown as number,
+    };
 
-      try {
-        const response = await fetch("http://localhost:5000/api/v1/booking", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newBooking),
+    setBookingData([...bookingData, newBooking]);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/v1/booking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newBooking),
+      });
+
+      if (response.ok) {
+        toast.success("Submitted successfully!", {
+          autoClose: 3000,
         });
-
-        if (response.ok) {
-          toast.success("Submitted successfully!", {
-            autoClose: 3000,
-          });
-          setSelectedBrand("");
-          setSelectedModel("");
-          setSelectedFacility("");
-          setRecycleItemPrice(0);
-          setPickupDate("");
-          setPickupTime("");
-          setAddress("");
-          setIsLoading(false)
-
-        } else {
-          toast.error("Error submitting data.", {
-            autoClose: 3000,
-          });
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        toast.error("Error submitting data.", {
+        setSelectedBrand("");
+        setSelectedModel("");
+        setSelectedFacility("");
+        setRecycleItemPrice(0);
+        setPickupDate("");
+        setPickupTime("");
+        setAddress("");
+      } else {
+        const errorData = await response.json();
+        toast.error(`Error submitting data: ${errorData.message || response.statusText}`, {
           autoClose: 3000,
         });
       }
-      finally {
-        setIsLoading(false);
-    }
-    } else {
-      toast.error("Please fill in all the required fields.", {
+    } catch (error) {
+      console.error("Error submitting booking:", error);
+      toast.error("Error submitting data. Please try again.", {
         autoClose: 3000,
       });
+    } finally {
+      setIsLoading(false);
     }
   } else {
-    toast.error("Please Login to book a facility", {
+    toast.error("Please fill in all the required fields.", {
       autoClose: 3000,
     });
   }
