@@ -8,36 +8,36 @@ import Lottie from "lottie-react";
 
 const teamMembers = [
   {
-    name: "Arjun Sharma",
-    branch: "Computer Science Engineering",
+    name: "Sajal Mittal",
+    branch: "Computer Science",
     age: 22,
     year: "4th Year",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
-    role: "Full Stack Developer"
-  },
-  {
-    name: "Priya Patel",
-    branch: "Electronics & Communication Engineering", 
-    age: 22,
-    year: "4th Year",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
-    role: "UI/UX Designer"
-  },
-  {
-    name: "Rohit Kumar",
-    branch: "Computer Science Engineering",
-    age: 22,
-    year: "4th Year", 
-    image: "https://randomuser.me/api/portraits/men/46.jpg",
+    image: "https://www.pngall.com/wp-content/uploads/12/Avatar-No-Background.png",
     role: "Backend Developer"
   },
   {
-    name: "Sneha Gupta",
-    branch: "Information Technology",
+    name: "Sarvagya Pratap Singh",
+    branch: "Computer Science", 
     age: 22,
     year: "4th Year",
-    image: "https://randomuser.me/api/portraits/women/68.jpg",
-    role: "Data Analyst"
+    image: "https://png.pngtree.com/png-vector/20220817/ourmid/pngtree-man-avatar-with-circle-frame-vector-ilustration-png-image_6110328.png",
+    role: "Frontend Developer"
+  },
+  {
+    name: "Utkarsh Pratap Singh",
+    branch: "Computer Science",
+    age: 22,
+    year: "4th Year", 
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxAqe5vlEv-UaxkHoCvryEkwPiJLIH_rjXww&s",
+    role: "Frontend Developer"
+  },
+  {
+    name: "Tonmoy Mukherjee",
+    branch: "Computer Science",
+    age: 22,
+    year: "4th Year",
+    image: "https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg",
+    role: "Full Stack Developer"
   }
 ];
 

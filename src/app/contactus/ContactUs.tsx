@@ -67,7 +67,7 @@ const ContactUs = () => {
 
   return (
     <><Head>
-     <title>ELocate- ContactUs</title> </Head><div className="px-4 w-full py-16 lg:py-24 md:pb-32 md:container">
+     <title>Scraply- ContactUs</title> </Head><div className="px-4 w-full py-16 lg:py-24 md:pb-32 md:container">
       <ToastContainer
         className="text-2xl"
         position="top-right"
