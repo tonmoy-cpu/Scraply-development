@@ -23,6 +23,7 @@ const Header = () => {
   const [isHeaderActive, setIsHeaderActive] = useState(false);
   const [locations, setLocation] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const handleToggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -30,6 +31,7 @@ const Header = () => {
 
   useEffect(() => {
     document.documentElement.classList.remove('no-js');
+    setMounted(true);
 
     if (navigator.geolocation) {
       const options = {
@@ -125,9 +127,10 @@ const user = getUser();
             <NavItem label="Price Prediction" />
             <NavItem label="Tracking" />
             <NavItem label="Blog" />
+            {mounted && user?.role === "admin" && <NavItem label="Add Blog" />}
             <NavItem label="Contact Us" />
             <NavItem label="Rules" />
-            {user?.role === "admin" && <NavItem label="Admin" />}
+            {mounted && user?.role === "admin" && <NavItem label="Admin" />}
           </ul>
         </nav>
 
@@ -192,9 +195,16 @@ const user = getUser();
 };
 
 const NavItem = ({ label }: NavItemProps) => {
+  let href = "/";
+  if (label === "Home") href = "/";
+  else if (label === "Blog") href = "/blog";
+  else if (label === "Add Blog") href = "/blog/AddBlog";
+  else if (label === "Admin") href = "/admin";
+  else if (label === "Contact Us") href = "/contactus";
+  else href = `/${label.toLowerCase().replace(/ /g, "-")}`;
   return (
     <li className="navbar-link">
-      <Link href={label === "Home" ? "/" : `/${label.toLowerCase().replace(" ", "-")}`}>
+      <Link href={href}>
         {label}
       </Link>
     </li>

@@ -120,8 +120,21 @@ const BlogList: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <ToastContainer />
-      
+
       <div className="container mx-auto px-4">
+        {/* Add Blog Button */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex justify-end mb-6"
+        >
+          <Link
+            href="/blog/AddBlog"
+            className="bg-go-green text-white font-semibold px-6 py-2 rounded-lg shadow hover:bg-eco-green transition-colors"
+          >
+            + Add Blog
+          </Link>
+        </motion.div>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -160,7 +173,6 @@ const BlogList: React.FC = () => {
                       alt={blog.title}
                       fill
                       className="object-cover"
-                      style={{ height: 'auto' }}
                     />
                     <div className="absolute top-4 left-4">
                       <span className="bg-go-green text-white px-3 py-1 rounded-full text-sm font-medium">
@@ -224,7 +236,6 @@ const BlogList: React.FC = () => {
                       alt={blog.title}
                       fill
                       className="object-cover"
-                      style={{ height: 'auto' }}
                     />
                     {blog.featured && (
                       <div className="absolute top-4 left-4">
