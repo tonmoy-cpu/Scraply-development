@@ -205,7 +205,7 @@ const ContactUs = () => {
                   href="mailto:contact@elocate.com"
                   className="contact-link"
                 >
-                  contact@elocate.com
+                  contact@scraply.com
                 </Link>
               </li>
               <li className="footer-item">
