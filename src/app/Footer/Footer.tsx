@@ -270,7 +270,7 @@ const Footer = () => {
         <p className="copyright">
             &copy; 2024 Scraply | All Rights Reserved by{" "}
             <Link href="#" className="copyright-link">
-              BinaryBros
+              Team Scraply
             </Link>
           </p>
           <ul className="footer-bottom-list">

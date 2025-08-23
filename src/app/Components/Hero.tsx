@@ -143,7 +143,7 @@ const HeroSection: React.FC = () => {
             </motion.span>
           </h1>
 
-          <p className="text-white mb-8 robber text-center md:text-start">
+          <p className="text-black mb-8 text-center md:text-start">
             Scraply: Transforming E-Waste Management. Find E-waste facilities effortlessly
             with our platform. Your key to responsible recycling and sustainability.
           </p>

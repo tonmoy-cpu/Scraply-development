@@ -144,8 +144,9 @@ const BlogDetail: React.FC = () => {
               src={blog.photo || "/api/placeholder/800/400"}
               alt={blog.title}
               fill
+              priority
+              sizes="(max-width: 768px) 100vw, 800px"
               className="object-cover"
-              style={{ height: 'auto' }}
             />
             {blog.featured && (
               <div className="absolute top-6 left-6">
@@ -167,7 +168,7 @@ const BlogDetail: React.FC = () => {
               {blog.comments && blog.comments.length > 0 && (
                 <>
                   <FiMessageCircle className="mr-2" />
-                  <span>{blog.comments.length} comment{blog.comments.length !== 1 ? 's' : ''}</span>
+                  <span>{blog.comments.length} comment{blog.comments.length !== 1 ? "s" : ""}</span>
                 </>
               )}
             </div>
@@ -238,8 +239,8 @@ const BlogDetail: React.FC = () => {
                       src={relatedBlog.photo || "/api/placeholder/300/200"}
                       alt={relatedBlog.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, 300px"
                       className="object-cover"
-                      style={{ height: 'auto' }}
                     />
                   </div>
                   <div className="p-4">
