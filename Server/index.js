@@ -8,6 +8,7 @@ import userRoute from "./router/users.js";
 import bookingRoute from "./router/bookings.js";
 import blogRoute from "./router/blog.js";
 import facilityRoute from "./router/facility.js";
+import popupRoute from "./router/popup.js";   // ✅ import popup routes
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 dotenv.config();
@@ -21,7 +22,7 @@ app.use(cookieParser());
 // ✅ Allow CORS for localhost + Codespaces frontend
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://turbo-space-giggle-wxw795jxxxg25xwp-3000.app.github.dev"
+  "https://turbo-space-giggle-wxw795jxxxg25xwp-3000.app.github.dev",
 ];
 
 app.use(
@@ -119,6 +120,7 @@ app.use("/api/v1/users", userRoute);
 app.use("/api/v1/booking", bookingRoute);
 app.use("/api/v1/blogs", blogRoute);
 app.use("/api/v1/facility", facilityRoute);
+app.use("/api/v1/popups", popupRoute);   // ✅ mount popup routes here
 
 // ------------------- MongoDB -------------------
 mongoose.set("strictQuery", false);
@@ -148,4 +150,5 @@ app.listen(port, "0.0.0.0", () => {
   console.log("- /api/v1/booking/*");
   console.log("- /api/v1/blogs/*");
   console.log("- /api/v1/facility/*");
+  console.log("- /api/v1/popups/* ✅");   // log popups route
 });
