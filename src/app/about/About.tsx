@@ -13,7 +13,7 @@ const teamMembers = [
     age: 22,
     year: "4th Year",
     image: "https://www.pngall.com/wp-content/uploads/12/Avatar-No-Background.png",
-    role: "Backend Developer"
+    role: "Fullstack Developer"
   },
   {
     name: "Sarvagya Pratap Singh",
