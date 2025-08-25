@@ -41,7 +41,7 @@ const EducationalPopup: React.FC<EducationalPopupProps> = ({ currentPage = "all"
 
           // frequency logic
           if (lastShown) {
-            const hoursElapsed = (now - parseInt(lastShown)) / (1000 * 60 * 60);
+            const hoursElapsed = (now - parseInt(lastShown)) / (1000 * 60);
             if (hoursElapsed < (popupData.frequency || 24)) return;
           }
 

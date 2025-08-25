@@ -383,7 +383,7 @@ const PopupManagement: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Frequency (hours)
+                      Frequency (minutes)
                     </label>
                     <input
                       type="number"
@@ -391,7 +391,7 @@ const PopupManagement: React.FC = () => {
                       value={formData.frequency}
                       onChange={handleInputChange}
                       min="1"
-                      max="168"
+                      max="200"
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     />
                   </div>
