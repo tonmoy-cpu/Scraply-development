@@ -3,12 +3,6 @@
 @tailwind utilities;
 
 :root {
-
-  /**
-   * colors
-   */
-   
-
   --rich-black-fogra-29-1: hsl(216, 34%, 21%);
   --rich-black-fogra-29-2: hsl(240, 31%, 18%);
   --rich-black-fogra-39: hsl(158, 29%, 5%);
@@ -26,11 +20,6 @@
   --tech-blue: hsl(210, 100%, 60%);
   --eco-green: hsl(120, 60%, 50%);
   --warning-orange: hsl(35, 100%, 55%);
-
-  /**
-   * typography
-   */
-
   --ff-poppins: 'Poppins', sans-serif;
   --ff-cuprum: 'Cuprum', sans-serif;
 
@@ -52,44 +41,16 @@
 
   --fw-600: 600;
   --fw-500: 500;
-
-  /**
-   * spacing
-   */
-
   --section-padding: 30px;
-
-  /**
-   * shadow
-   */
-
   --shadow-1: 3px 4px 30px hsla(0, 0%, 53%, 0.1);
   --shadow-2: 5px 3px 40px hsla(191, 100%, 17%, 0.1);
-
-  /**
-   * radius
-   */
-
   --radius-5: 5px;
-
-  /**
-   * transition
-   */
-
   --transition-1: 0.25s ease;
   --transition-2: 0.5s ease;
   --cubic-out: cubic-bezier(0.33, 0.85, 0.4, 0.96);
   --cubic-in: cubic-bezier(0.51,0.03,0.64,0.28)
 
 }
-
-
-
-
-
-/*-----------------------------------*\
-  #RESET
-\*-----------------------------------*/
 
 *,
 *::before,
@@ -152,11 +113,6 @@ body {
 ::-webkit-scrollbar-thumb { background-color: hsl(0, 0%, 80%); }
 
 ::-webkit-scrollbar-thumb:hover { background-color: hsl(0, 0%, 70%); }
-
-
-/*-----------------------------------*\
-  #REUSED STYLE
-\*-----------------------------------*/
 
 .container { padding-inline: 5px; }
 
@@ -376,10 +332,6 @@ body {
 }
 
 
-/*-----------------------------------*\
-  #HEADER
-\*-----------------------------------*/
-
 .header .btn-outline {
   display: block;
   color: var(--go-green);
@@ -441,7 +393,7 @@ body {
   padding: 30px 20px;
   visibility: hidden;
   transition: 0.25s var(--cubic-in);
-  transform: translateX(280px); /* Initial position off-screen */
+  transform: translateX(280px); 
   z-index: 4;
 }
 
@@ -485,13 +437,6 @@ body {
   opacity: 1;
 }
 
-
-
-
-
-/*-----------------------------------*\
-  #HERO
-\*-----------------------------------*/
 
 .hero {
   background-color: hsl(0, 0%, 100%); 
@@ -601,14 +546,6 @@ body {
   z-index: -1;
 }
 
-
-
-
-
-/*-----------------------------------*\
-  #ABOUT
-\*-----------------------------------*/
-
 .about .container {
   display: grid;
   gap: 70px;
@@ -658,10 +595,6 @@ body {
 
 
 
-
-/*-----------------------------------*\
-  #SERVICE
-\*-----------------------------------*/
 
 .projects{
   background-color: var(--mint-cream);
@@ -715,10 +648,6 @@ body {
 
 
 
-/*-----------------------------------*\
-  #FEATURES
-\*-----------------------------------*/
-
 .features .section-text { margin-block: 15px 50px; font-size: 1.5rem; }
 
 .features-card {
@@ -759,14 +688,6 @@ body {
 .features-card :is(.card-title, .card-text) { transition: var(--transition-1); }
 
 .features-card:hover :is(.card-title, .card-text) { color: var(--white); }
-
-
-
-
-
-/*-----------------------------------*\
-  #FAQ
-\*-----------------------------------*/
 
 .faq .container {
   display: grid;
@@ -842,12 +763,6 @@ body {
 .faq-card .card-action.active + .card-content { max-height: 500px; }
 
 
-
-
-
-/*-----------------------------------*\
-  #FOOTER
-\*-----------------------------------*/
 
 .footer {
   color: var(--rich-black-fogra-29-1);
@@ -982,37 +897,14 @@ body {
 
 
 
-
-
-/*-----------------------------------*\
-  #MEDIA QUERIES 
-\*-----------------------------------*/
-
-/**
- * responsive for large than 575px screen
- */
-
 @media (min-width: 575px) {
-
-  /**
-   * CUSTOM PROPERTY
-   */
 
   :root {
 
-    /**
-     * typography
-     */
 
     --fs-1: 5.4rem;
 
   }
-
-
-
-  /**
-   * REUSED STYLE
-   */
 
   .container {
     max-width: 540px;
@@ -1022,18 +914,9 @@ body {
 
 
 
-  /**
-   * HEADER
-   */
-
   .header .container { max-width: unset;   padding-block: 0px;
   }
 
-
-
-  /**
-   * SERVICE
-   */
 
   .service .grid-list { grid-template-columns: 1fr 1fr; }
 
@@ -1054,33 +937,15 @@ body {
 }
 
 
-/**
- * responsive for large than 768px screen
- */
-
 @media (min-width: 768px) {
 
-  /**
-   * CUSTOM PROPERTY
-   */
-
   :root {
-
-    /**
-     * typography
-     */
 
     --fs-1: 7rem;
     --fs-2: 4rem;
     --fs-4: 3.5rem;
 
   }
-
-
-
-  /**
-   * REUSED STYLE
-   */
    
 
   .container { max-width: 720px; }
@@ -1095,27 +960,12 @@ body {
 
   .btn-link { --fs-12: 1.4rem; }
 
-
-
-  /**
-   * HERO
-   */
-
   .hero-subtitle { --fs-12: 1.4rem; }
 
-
-
-  /**
-   * FEATURES
-   */
 
   .features .grid-list { grid-template-columns: 1fr 1fr; }
 
 
-
-  /**
-   * FOOTER
-   */
 
   .footer-top .container { grid-template-columns: 1fr 1fr; }
 
@@ -1125,22 +975,9 @@ body {
 
 
 
-/**
- * responsive for large than 992px screen
- */
-
 @media (min-width: 992px) {
 
-  /**
-   * REUSED STYLE
-   */
-
   .container { max-width: 960px; }
-
-  /**
-   * HEADER
-   */
-
   .nav-open-btn,
   .navbar .wrapper,
   .overlay { display: none; }
